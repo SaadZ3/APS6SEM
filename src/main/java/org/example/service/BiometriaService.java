@@ -1,33 +1,33 @@
 package org.example.service;
 
 import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameGrabber;
 import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.OpenCVFrameGrabber;
 import javax.swing.WindowConstants;
 
 public class BiometriaService {
 
     public void iniciarCapturaWebcam() {
         try {
-            // Inicia o dispositivo da câmera
             OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
             grabber.start();
 
-            // Cria uma janela para exibir a imagem
-            CanvasFrame canvas = new CanvasFrame("Webcam");
-            canvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            CanvasFrame canvas = new CanvasFrame("Webcam", CanvasFrame.getDefaultGamma() / grabber.getGamma());
+            // Fechar apenas esta janela, não a aplicação inteira
+            canvas.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-            // Loop para capturar e exibir frames continuamente
-            while (canvas.isVisible() && (grabber.grab()) != null) {
-                Frame frame = grabber.grab();
+            Frame frame;
+            // Loop corrigido: chame o grab() apenas uma vez
+            while (canvas.isVisible() && (frame = grabber.grab()) != null) {
                 canvas.showImage(frame);
             }
 
-            // Libera os recursos
             canvas.dispose();
             grabber.stop();
+            grabber.release();
 
         } catch (Exception e) {
+            // É crucial imprimir o erro para saber o que deu errado!
             e.printStackTrace();
         }
     }

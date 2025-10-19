@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
+<StackPane prefHeight="405.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
     <Label text="Hello World!" />
    <Pane prefHeight="200.0" prefWidth="200.0">
       <children>
-         <Button fx:id="btnIniciarCamera" layoutX="74.0" layoutY="127.0" mnemonicParsing="false" text="Button" />
+          <Button fx:id="btnIniciarCamera" layoutX="323.0" layoutY="260.0" onAction="#iniciarCamera" text="Iniciar Câmera" />
       </children>
    </Pane>
 </StackPane>
