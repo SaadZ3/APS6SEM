@@ -1,22 +1,39 @@
 package org.example.controller;
 
-import org.example.service.BiometriaService;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import java.io.IOException;
 
 public class TelaPrincipalController {
 
     @FXML
-    private Button btnIniciarCamera;
+    private BorderPane mainPane;
 
     @FXML
-    void iniciarCamera(ActionEvent event) {
-        System.out.println("Botão Iniciar Câmera clicado!");
-        BiometriaService biometriaService = new BiometriaService();
+    void abrirTelaCadastro(ActionEvent event) {
+        carregarTela("CadastroView");
+    }
 
-        // Para não travar a interface, é ideal rodar isso em uma nova Thread
-        new Thread(() -> biometriaService.iniciarCapturaWebcam()).start();
+    @FXML
+    void abrirTelaVerificacao(ActionEvent event) {
+        carregarTela("VerificacaoView");
+    }
+
+    @FXML
+    void fecharAplicacao(ActionEvent event) {
+        System.exit(0);
+    }
+
+    private void carregarTela(String nomeTela) {
+        try {
+            Parent tela = FXMLLoader.load(getClass().getResource("/view/" + nomeTela + ".fxml"));
+            mainPane.setCenter(tela);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Lide com o erro, por exemplo, mostrando um alerta para o usuário
+        }
     }
 }
