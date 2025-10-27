@@ -8,65 +8,61 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser; // <-- Importe o FileChooser
+import javafx.stage.Stage; // <-- Importe o Stage
 
+import java.io.File; // <-- Importe o File
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CadastroController implements Initializable {
 
-    @FXML
-    private Button btnCadastrar;
+    // ... (outras variáveis FXML) ...
+    @FXML private Label lblCaminhoImagem;
+    @FXML private ComboBox<Integer> cmbNivelAcesso;
+    @FXML private TextField txtNome;
+    @FXML private TextField txtUsuario;
 
-    @FXML
-    private Button btnSelecionarImagem;
+    // Variável para armazenar o arquivo de imagem selecionado
+    private File arquivoImagemSelecionada;
 
-    @FXML
-    private Label lblCaminhoImagem;
-
-    // A ComboBox para o nível de acesso. Note o tipo <Integer>.
-    @FXML
-    private ComboBox<Integer> cmbNivelAcesso;
-
-    @FXML
-    private TextField txtNome;
-
-    @FXML
-    private TextField txtUsuario;
-
-    /**
-     * Este método é chamado automaticamente depois que o FXML é carregado.
-     * É o lugar perfeito para configurar os componentes.
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Adiciona os números 1, 2 e 3 como opções na ComboBox
         cmbNivelAcesso.setItems(FXCollections.observableArrayList(1, 2, 3));
     }
 
     @FXML
     void cadastrar(ActionEvent event) {
-        // Exemplo de como pegar os valores dos campos
-        String nome = txtNome.getText();
-        String usuario = txtUsuario.getText();
-        Integer nivelAcesso = cmbNivelAcesso.getValue(); // Pega o valor selecionado
+        // ... (código de cadastro existente) ...
 
-        // Validação simples
-        if (nome.isEmpty() || usuario.isEmpty() || nivelAcesso == null) {
-            System.out.println("Erro: Todos os campos devem ser preenchidos.");
-            // No futuro, mostre um alerta para o usuário aqui
+        // Verificação adicional
+        if (arquivoImagemSelecionada == null) {
+            System.out.println("Erro: Nenhuma imagem selecionada.");
             return;
         }
 
-        System.out.println("Cadastrando usuário:");
-        System.out.println("Nome: " + nome);
-        System.out.println("Usuário: " + usuario);
-        System.out.println("Nível de Acesso: " + nivelAcesso);
+        System.out.println("Caminho da Imagem: " + arquivoImagemSelecionada.getAbsolutePath());
 
         // Chamar a lógica de cadastro no service aqui...
     }
 
     @FXML
     void selecionarImagem(ActionEvent event) {
-        System.out.println("Lógica para abrir seletor de arquivo aqui...");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecionar Imagem da Biometria");
+
+        // Define filtros para aceitar apenas imagens
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        // Abre a janela de seleção
+        Stage stage = (Stage) lblCaminhoImagem.getScene().getWindow();
+        arquivoImagemSelecionada = fileChooser.showOpenDialog(stage);
+
+        if (arquivoImagemSelecionada != null) {
+            // Atualiza o Label para mostrar o nome do arquivo
+            lblCaminhoImagem.setText(arquivoImagemSelecionada.getName());
+        }
     }
 }
