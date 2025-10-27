@@ -4,8 +4,9 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
+<BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
     <top>
         <MenuBar>
             <menus>
@@ -23,4 +24,7 @@
             </menus>
         </MenuBar>
     </top>
+   <center>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bem vindo ao Autenticador de Biometria" wrappingWidth="240.6979217529297" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
