@@ -6,6 +6,10 @@ import org.example.service.BiometriaService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.example.model.Propriedade;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
@@ -85,5 +89,38 @@ public class UsuarioDAO {
 
         // Retorna nulo se o usuário não for encontrado ou se der erro
         return null;
+    }
+
+
+    /**
+        * Busca as propriedades que o usuário tem permissão para ver.
+        * A lógica é: um usuário de nível N pode ver todos os dados de nível <= N.
+     */
+    public List<Propriedade> getPropriedadesPorNivel(int nivelUsuario) {
+        List<Propriedade> propriedades = new ArrayList<>();
+        String sql = "SELECT nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario "
+                + "FROM propriedades_rurais WHERE nivel_acesso_necessario <= ? "
+                + "ORDER BY nivel_acesso_necessario";
+
+        try (Connection conn = DatabaseService.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, nivelUsuario);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Propriedade p = new Propriedade(
+                        rs.getString("nome_propriedade"),
+                        rs.getString("agrotoxico_utilizado"),
+                        rs.getString("impacto_ambiental"),
+                        rs.getInt("nivel_acesso_necessario")
+                );
+                propriedades.add(p);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return propriedades;
     }
 }

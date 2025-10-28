@@ -17,6 +17,11 @@ import java.io.File;
 import java.net.URL; // Importe
 import java.util.ResourceBundle; // Importe
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import java.io.IOException;
+
 public class VerificacaoController implements Initializable {
 
     @FXML private Label lblCaminhoImagem;
@@ -95,17 +100,33 @@ public class VerificacaoController implements Initializable {
 
             // 7. Dar feedback final
             if (acessoPermitido) {
-                String mensagem = "Acesso Permitido! Nível de acesso: " + biometriaSalva.nivelAcesso();
-                AlertUtils.showSuccessAlert(mensagem);
+                // SUCESSO! Em vez de um alerta, vamos carregar a tela de dados
+                AlertUtils.showSuccessAlert("Acesso Permitido! Carregando dados...");
 
-                // Aqui você pode adicionar a lógica para
-                // o que acontece após o login, de acordo com o nível.
-                // Ex: carregarTelasRestritas(biometriaSalva.nivelAcesso());
+                try {
+                    // 1. Encontra o painel principal da aplicação
+                    BorderPane mainPane = (BorderPane) txtUsuario.getScene().getRoot();
 
+                    // 2. Carrega o FXML da nova tela
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DadosView.fxml"));
+                    Parent dadosView = loader.load();
+
+                    // 3. Pega o controller da tela que acabamos de carregar
+                    DadosController dadosController = loader.getController();
+
+                    // 4. Chama o método do controller novo, passando o nível de acesso
+                    dadosController.carregarDados(biometriaSalva.nivelAcesso());
+
+                    // 5. Coloca a nova tela no centro da janela principal
+                    mainPane.setCenter(dadosView);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    AlertUtils.showErrorAlert("Erro ao carregar a tela de dados.");
+                }
             } else {
                 AlertUtils.showErrorAlert("Acesso Negado. A biometria não confere.");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             AlertUtils.showErrorAlert("Ocorreu um erro inesperado na verificação: " + e.getMessage());
