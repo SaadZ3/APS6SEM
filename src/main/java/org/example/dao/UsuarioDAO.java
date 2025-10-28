@@ -52,4 +52,38 @@ public class UsuarioDAO {
             return false; // Falha
         }
     }
+
+    /**
+     * Busca os dados de biometria e nível de acesso de um usuário.
+     */
+    public org.example.model.UsuarioBiometria getBiometriaPorUsuario(String usuario) {
+        String sql = "SELECT nivel_acesso, biometria_dados, biometria_rows, biometria_cols, biometria_type "
+                + "FROM usuarios WHERE usuario = ?";
+
+        try (Connection conn = DatabaseService.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, usuario);
+            java.sql.ResultSet rs = pstmt.executeQuery();
+
+            // Verifica se o usuário foi encontrado
+            if (rs.next()) {
+                // Lê os dados do ResultSet
+                int nivelAcesso = rs.getInt("nivel_acesso");
+                byte[] dados = rs.getBytes("biometria_dados");
+                int rows = rs.getInt("biometria_rows");
+                int cols = rs.getInt("biometria_cols");
+                int type = rs.getInt("biometria_type");
+
+                // Retorna o objeto com todos os dados
+                return new org.example.model.UsuarioBiometria(dados, rows, cols, type, nivelAcesso);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Retorna nulo se o usuário não for encontrado ou se der erro
+        return null;
+    }
 }

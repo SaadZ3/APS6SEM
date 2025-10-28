@@ -9,7 +9,7 @@ import org.bytedeco.opencv.opencv_features2d.BFMatcher;
 import org.bytedeco.opencv.opencv_features2d.ORB;
 
 import java.io.File;
-import java.nio.ByteBuffer;
+import java.nio.ByteBuffer; // Este import não é mais necessário, mas pode ficar
 
 import static org.bytedeco.opencv.global.opencv_core.NORM_HAMMING;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.IMREAD_GRAYSCALE;
@@ -76,18 +76,30 @@ public class BiometriaService {
 
     // ------- Métodos Utilitários para o Banco de Dados -------
 
-    // Converte um Mat do OpenCV para um array de bytes para salvar no BLOB.
+    /**
+     * Converte um Mat do OpenCV para um array de bytes para salvar no BLOB.
+     */
     public byte[] converterMatParaBytes(Mat mat) {
         long size = mat.total() * mat.elemSize();
         byte[] bytes = new byte[(int) size];
-        mat.data().asByteBuffer().get(bytes);
+
+        // --- CORREÇÃO AQUI ---
+        // Copia os dados diretamente do ponteiro de dados do Mat para o array
+        mat.data().get(bytes);
+
         return bytes;
     }
 
-    // Reconstrói um Mat a partir dos bytes e metadados salvos no banco.
+    /**
+     * Reconstrói um Mat a partir dos bytes e metadados salvos no banco.
+     */
     public Mat converterBytesParaMat(byte[] bytes, int rows, int cols, int type) {
         Mat mat = new Mat(rows, cols, type);
-        mat.data().asByteBuffer().put(bytes);
+
+        // --- CORREÇÃO AQUI ---
+        // Coloca os dados do array diretamente no ponteiro de dados do Mat
+        mat.data().put(bytes);
+
         return mat;
     }
 }
