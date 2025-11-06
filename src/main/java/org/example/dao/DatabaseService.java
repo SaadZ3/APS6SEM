@@ -18,37 +18,40 @@ public class DatabaseService {
         }
     }
 
-    // Função para criar tabelas
+    // Método para criar as tabelas
     public static void criarTabelas() {
-        // SQL para criar a tabela de usuários (você já tem)
+        // --- MUDANÇA AQUI ---
+        // Adicionamos colunas para biometria facial e permitimos que sejam NULL
         String sqlUsuarios = "CREATE TABLE IF NOT EXISTS usuarios ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " nome_completo TEXT NOT NULL,"
                 + " usuario TEXT NOT NULL UNIQUE,"
                 + " nivel_acesso INTEGER NOT NULL,"
-                + " biometria_dados BLOB NOT NULL,"
-                + " biometria_rows INTEGER NOT NULL,"
-                + " biometria_cols INTEGER NOT NULL,"
-                + " biometria_type INTEGER NOT NULL"
+                + " biometria_dados BLOB NULL," // Digital
+                + " biometria_rows INTEGER NULL,"
+                + " biometria_cols INTEGER NULL,"
+                + " biometria_type INTEGER NULL,"
+                + " face_dados BLOB NULL," // Rosto
+                + " face_rows INTEGER NULL,"
+                + " face_cols INTEGER NULL,"
+                + " face_type INTEGER NULL"
                 + ");";
 
-        // SQL para a NOVA tabela de propriedades
+        // SQL para a tabela de propriedades (sem alteração)
         String sqlPropriedades = "CREATE TABLE IF NOT EXISTS propriedades_rurais ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " nome_propriedade TEXT NOT NULL,"
                 + " agrotoxico_utilizado TEXT NOT NULL,"
                 + " impacto_ambiental TEXT,"
-                + " nivel_acesso_necessario INTEGER NOT NULL" // Nível 1, 2 ou 3
+                + " nivel_acesso_necessario INTEGER NOT NULL"
                 + ");";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-            // Executa a criação das duas tabelas
             stmt.execute(sqlUsuarios);
             stmt.execute(sqlPropriedades);
-            System.out.println("Banco de dados e tabelas verificados com sucesso.");
+            System.out.println("Banco de dados e tabelas (com suporte a face) verificados.");
 
-            // Popula os dados iniciais
             popularDadosIniciais(conn);
 
         } catch (SQLException e) {
@@ -56,9 +59,8 @@ public class DatabaseService {
         }
     }
 
-    // Método para popular a tabela com dados fictícios
+    // Método para popular a tabela com dados fictícios (sem alteração)
     private static void popularDadosIniciais(Connection conn) throws SQLException {
-        // Verifica se a tabela já tem dados para não inserir de novo
         String sqlCheck = "SELECT COUNT(*) FROM propriedades_rurais";
         try (Statement stmt = conn.createStatement();
              java.sql.ResultSet rs = stmt.executeQuery(sqlCheck)) {
@@ -66,19 +68,19 @@ public class DatabaseService {
                 System.out.println("Populando tabela 'propriedades_rurais' com dados iniciais...");
                 Statement insertStmt = conn.createStatement();
 
-                // Nível 1 (Público)
+                // Nível 1
                 insertStmt.execute("INSERT INTO propriedades_rurais (nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario) " +
                         "VALUES ('Fazenda Boa Esperança', 'Glifosato', 'Monitorado', 1)");
                 insertStmt.execute("INSERT INTO propriedades_rurais (nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario) " +
                         "VALUES ('Sítio Água Limpa', '2,4-D', 'Baixo', 1)");
 
-                // Nível 2 (Restrito - Diretores)
+                // Nível 2
                 insertStmt.execute("INSERT INTO propriedades_rurais (nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario) " +
                         "VALUES ('Fazenda Rio Turvo', 'Atrazina', 'Alto Risco - Lençóis Freáticos', 2)");
                 insertStmt.execute("INSERT INTO propriedades_rurais (nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario) " +
                         "VALUES ('Grupo Veredas', 'Metolacloro', 'Médio Risco - Contaminação de Rio', 2)");
 
-                // Nível 3 (Secreto - Ministro)
+                // Nível 3
                 insertStmt.execute("INSERT INTO propriedades_rurais (nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario) " +
                         "VALUES ('Complexo Agro S.A.', 'Endossulfan (Proibido)', 'Dano Crítico - Bacia Hidrográfica', 3)");
 
