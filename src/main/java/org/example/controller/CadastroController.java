@@ -130,46 +130,58 @@ public class CadastroController implements Initializable {
 
     @FXML
     void cadastrar(ActionEvent event) {
+        // 1. Obter os dados da interface
         String nome = txtNome.getText();
         String usuario = txtUsuario.getText();
         Integer nivelAcesso = cmbNivelAcesso.getValue();
         String tipoBiometria = cmbTipoBiometria.getValue();
 
+        // 2. Validação de campos
         if (nome.isEmpty() || usuario.isEmpty() || nivelAcesso == null || tipoBiometria == null) {
             AlertUtils.showErrorAlert("Todos os campos principais devem ser preenchidos.");
             return;
         }
 
-        // Validação da Digital
-        if ((tipoBiometria.equals(TIPO_DIGITAL) || tipoBiometria.equals(TIPO_AMBOS)) && arquivoImagemDigital == null) {
-            AlertUtils.showErrorAlert("Nenhuma imagem de digital foi selecionada.");
-            return;
-        }
-        // Validação do Rosto
-        if ((tipoBiometria.equals(TIPO_ROSTO) || tipoBiometria.equals(TIPO_AMBOS)) && arquivoImagemRosto == null) {
-            AlertUtils.showErrorAlert("Nenhum rosto foi capturado.");
-            return;
-        }
-
-        // --- CHECKPOINT ---
-        // A lógica de salvar no banco de dados (próximo passo) virá aqui.
-        // Por enquanto, vamos testar a captura.
+        Mat descritoresDigital = null;
+        Mat descritoresRosto = null;
 
         try {
-            // Lógica de cadastro (será atualizada no próximo passo)
-            // Por enquanto, só testamos se os arquivos existem
-            if (arquivoImagemDigital != null) {
-                System.out.println("Processando digital: " + arquivoImagemDigital.getName());
-                // Mat descDigital = biometriaService.extrairRecursos(arquivoImagemDigital);
-            }
-            if (arquivoImagemRosto != null) {
-                System.out.println("Processando rosto: " + arquivoImagemRosto.getName());
-                // Mat descRosto = biometriaService.extrairRecursos(arquivoImagemRosto);
+            // 3. Processar Biometria Digital (se selecionada)
+            if (tipoBiometria.equals(TIPO_DIGITAL) || tipoBiometria.equals(TIPO_AMBOS)) {
+                if (arquivoImagemDigital == null) {
+                    AlertUtils.showErrorAlert("Nenhuma imagem de digital foi selecionada.");
+                    return;
+                }
+                System.out.println("Extraindo recursos da digital...");
+                descritoresDigital = biometriaService.extrairRecursosDigital(arquivoImagemDigital);
             }
 
-            // NÃO SALVA NO BANCO AINDA (para o checkpoint)
-            AlertUtils.showSuccessAlert("Checkpoint: Captura de biometria (rosto/digital) pronta! (Nada foi salvo ainda).");
-            limparCampos();
+            // 4. Processar Biometria Facial (se selecionada)
+            if (tipoBiometria.equals(TIPO_ROSTO) || tipoBiometria.equals(TIPO_AMBOS)) {
+                if (arquivoImagemRosto == null) {
+                    AlertUtils.showErrorAlert("Nenhum rosto foi capturado.");
+                    return;
+                }
+                System.out.println("Extraindo recursos do rosto...");
+                descritoresRosto = biometriaService.extrairRecursosRosto(arquivoImagemRosto);
+
+                if (descritoresRosto.empty()) {
+                    AlertUtils.showErrorAlert("Não foi possível detectar um rosto na imagem capturada. Tente novamente com melhor iluminação.");
+                    return;
+                }
+            }
+
+            // 5. Salvar no Banco de Dados
+            System.out.println("Salvando usuário no banco de dados...");
+            boolean sucesso = usuarioDAO.cadastrarUsuario(nome, usuario, nivelAcesso, descritoresDigital, descritoresRosto);
+
+            // 6. Dar feedback ao usuário
+            if (sucesso) {
+                AlertUtils.showSuccessAlert("Usuário '" + usuario + "' cadastrado com sucesso!");
+                limparCampos();
+            } else {
+                AlertUtils.showErrorAlert("Não foi possível cadastrar o usuário. (Possível usuário duplicado).");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
