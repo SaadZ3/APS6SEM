@@ -45,6 +45,8 @@
 
                 <Button fx:id="btnVerificar" mnemonicParsing="false" onAction="#verificar" text="Verificar" />
             </children>
+            <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar" />
         </VBox>
+
     </children>
 </AnchorPane>

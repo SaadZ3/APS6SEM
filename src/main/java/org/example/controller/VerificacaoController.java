@@ -208,4 +208,18 @@ public class VerificacaoController implements Initializable {
         dadosController.carregarDados(nivelAcesso);
         mainPane.setCenter(dadosView);
     }
+
+    @FXML
+    void voltarParaHome(ActionEvent event) {
+        // Para a câmera, se estiver ligada
+        biometriaService.stopStreamWebcam();
+
+        try {
+            BorderPane mainPane = (BorderPane) txtUsuario.getScene().getRoot();
+            Parent tela = FXMLLoader.load(getClass().getResource("/view/HomeView.fxml"));
+            mainPane.setCenter(tela);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

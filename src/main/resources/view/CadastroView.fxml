@@ -53,5 +53,6 @@
                 <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
             </children>
         </VBox>
+        <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar" />
     </children>
 </AnchorPane>

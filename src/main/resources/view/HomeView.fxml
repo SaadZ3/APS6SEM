@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.HomeController">
+    <children>
+        <Label text="Sistema de Autenticação Biométrica">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bem-vindo ao sistema de acesso restrito do Ministério do Meio Ambiente." textAlignment="CENTER" wrappingWidth="400.0">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Text>
+        <VBox alignment="CENTER" spacing="10.0">
+            <children>
+                <Button fx:id="btnIrParaVerificacao" mnemonicParsing="false" onAction="#irParaVerificacao" prefWidth="200.0" text="Verificar Acesso (Login)" />
+                <Button fx:id="btnIrParaCadastro" mnemonicParsing="false" onAction="#irParaCadastro" prefWidth="200.0" text="Cadastrar Novo Usuário" />
+            </children>
+            <VBox.margin>
+                <Insets top="30.0" />
+            </VBox.margin>
+        </VBox>
+    </children>
+</VBox>

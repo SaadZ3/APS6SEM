@@ -129,6 +129,21 @@ public class CadastroController implements Initializable {
     }
 
     @FXML
+    void voltarParaHome(ActionEvent event) {
+        // Para a câmera, se estiver ligada
+        biometriaService.stopStreamWebcam();
+
+        // Usa a mesma lógica de navegação para carregar a Home
+        try {
+            BorderPane mainPane = (BorderPane) txtNome.getScene().getRoot();
+            Parent tela = FXMLLoader.load(getClass().getResource("/view/HomeView.fxml"));
+            mainPane.setCenter(tela);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void cadastrar(ActionEvent event) {
         // 1. Obter os dados da interface
         String nome = txtNome.getText();
@@ -206,4 +221,5 @@ public class CadastroController implements Initializable {
 
         atualizarVisibilidadeCampos(null);
     }
+
 }

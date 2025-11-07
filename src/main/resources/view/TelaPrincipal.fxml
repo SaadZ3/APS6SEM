@@ -6,25 +6,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
-    <top>
-        <MenuBar>
-            <menus>
-                <Menu mnemonicParsing="false" text="Arquivo">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#fecharAplicacao" text="Sair" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Ações">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#abrirTelaCadastro" text="Cadastrar Usuário" />
-                        <MenuItem mnemonicParsing="false" onAction="#abrirTelaVerificacao" text="Verificar Biometria" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </top>
-   <center>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bem vindo ao Autenticador de Biometria" wrappingWidth="240.6979217529297" BorderPane.alignment="CENTER" />
-   </center>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.TelaPrincipalController">
+
 </BorderPane>
