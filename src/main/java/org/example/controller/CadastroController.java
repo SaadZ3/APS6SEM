@@ -3,12 +3,15 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader; // Importe
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button; // Importe
+import javafx.scene.Parent; // Importe
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView; // Importe
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane; // <-- ESTA É A CORREÇÃO DO ERRO
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -19,30 +22,28 @@ import org.example.service.BiometriaService;
 import org.example.util.AlertUtils;
 
 import java.io.File;
+import java.io.IOException; // Importe
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CadastroController implements Initializable {
 
-    // --- NOVOS COMPONENTES FXML ---
+    // (O resto das suas variáveis @FXML aqui)
     @FXML private ComboBox<String> cmbTipoBiometria;
     @FXML private VBox boxDigital;
     @FXML private VBox boxRosto;
     @FXML private Label lblCaminhoImagemRosto;
-    @FXML private ImageView imgWebcamRosto; // Novo
-    @FXML private Button btnLigarCamera;    // Novo
-    @FXML private Button btnCapturarRosto;  // Novo
-    @FXML private Button btnCadastrar;      // Já existia
-
-    // --- COMPONENTES ANTIGOS ---
+    @FXML private ImageView imgWebcamRosto;
+    @FXML private Button btnLigarCamera;
+    @FXML private Button btnCapturarRosto;
+    @FXML private Button btnCadastrar;
     @FXML private ComboBox<Integer> cmbNivelAcesso;
     @FXML private Label lblCaminhoImagem;
     @FXML private TextField txtNome;
     @FXML private TextField txtUsuario;
 
-    // --- ARQUIVOS E SERVIÇOS ---
     private File arquivoImagemDigital;
-    private File arquivoImagemRosto; // Permanece como File
+    private File arquivoImagemRosto;
     private BiometriaService biometriaService;
     private UsuarioDAO usuarioDAO;
 
@@ -64,10 +65,10 @@ public class CadastroController implements Initializable {
     }
 
     private void atualizarVisibilidadeCampos(String tipo) {
-        // Para a webcam, precisamos parar o stream se o campo for ocultado
+        // (Este método permanece igual)
         if (tipo == null || (!tipo.equals(TIPO_ROSTO) && !tipo.equals(TIPO_AMBOS))) {
             boxRosto.setVisible(false); boxRosto.setManaged(false);
-            biometriaService.stopStreamWebcam(); // Garante que a câmera pare
+            biometriaService.stopStreamWebcam();
             btnLigarCamera.setDisable(false);
             btnCapturarRosto.setDisable(true);
         } else {
@@ -78,10 +79,9 @@ public class CadastroController implements Initializable {
         boxDigital.setVisible(mostrarDigital); boxDigital.setManaged(mostrarDigital);
     }
 
-    // --- LÓGICA DA WEBCAM ---
-
     @FXML
     void ligarCamera(ActionEvent event) {
+        // (Este método permanece igual)
         biometriaService.iniciarStreamWebcam(imgWebcamRosto);
         btnLigarCamera.setDisable(true);
         btnCapturarRosto.setDisable(false);
@@ -89,29 +89,23 @@ public class CadastroController implements Initializable {
 
     @FXML
     void capturarRosto(ActionEvent event) {
-        // Define um caminho temporário para a imagem
+        // (Este método permanece igual)
         String caminhoTemp = "temp_face_capture.jpg";
-
-        // Captura o frame e salva no arquivo
         arquivoImagemRosto = biometriaService.capturarFrameEGravar(caminhoTemp);
-
         if (arquivoImagemRosto != null) {
             lblCaminhoImagemRosto.setText("Rosto capturado: " + arquivoImagemRosto.getName());
             AlertUtils.showSuccessAlert("Rosto capturado com sucesso!");
         } else {
             AlertUtils.showErrorAlert("Não foi possível capturar o rosto.");
         }
-
-        // Para o stream após a captura
         biometriaService.stopStreamWebcam();
         btnLigarCamera.setDisable(false);
         btnCapturarRosto.setDisable(true);
     }
 
-    // --- LÓGICA DE CADASTRO (QUASE IDÊNTICA) ---
-
     @FXML
     void selecionarImagemDigital(ActionEvent event) {
+        // (Este método permanece igual)
         arquivoImagemDigital = selecionarArquivo("Selecionar Imagem da Digital");
         if (arquivoImagemDigital != null) {
             lblCaminhoImagem.setText(arquivoImagemDigital.getName());
@@ -119,6 +113,7 @@ public class CadastroController implements Initializable {
     }
 
     private File selecionarArquivo(String titulo) {
+        // (Este método permanece igual)
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(titulo);
         fileChooser.getExtensionFilters().addAll(
@@ -129,29 +124,13 @@ public class CadastroController implements Initializable {
     }
 
     @FXML
-    void voltarParaHome(ActionEvent event) {
-        // Para a câmera, se estiver ligada
-        biometriaService.stopStreamWebcam();
-
-        // Usa a mesma lógica de navegação para carregar a Home
-        try {
-            BorderPane mainPane = (BorderPane) txtNome.getScene().getRoot();
-            Parent tela = FXMLLoader.load(getClass().getResource("/view/HomeView.fxml"));
-            mainPane.setCenter(tela);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void cadastrar(ActionEvent event) {
-        // 1. Obter os dados da interface
+        // (Este método permanece igual)
         String nome = txtNome.getText();
         String usuario = txtUsuario.getText();
         Integer nivelAcesso = cmbNivelAcesso.getValue();
         String tipoBiometria = cmbTipoBiometria.getValue();
 
-        // 2. Validação de campos
         if (nome.isEmpty() || usuario.isEmpty() || nivelAcesso == null || tipoBiometria == null) {
             AlertUtils.showErrorAlert("Todos os campos principais devem ser preenchidos.");
             return;
@@ -161,7 +140,6 @@ public class CadastroController implements Initializable {
         Mat descritoresRosto = null;
 
         try {
-            // 3. Processar Biometria Digital (se selecionada)
             if (tipoBiometria.equals(TIPO_DIGITAL) || tipoBiometria.equals(TIPO_AMBOS)) {
                 if (arquivoImagemDigital == null) {
                     AlertUtils.showErrorAlert("Nenhuma imagem de digital foi selecionada.");
@@ -170,8 +148,6 @@ public class CadastroController implements Initializable {
                 System.out.println("Extraindo recursos da digital...");
                 descritoresDigital = biometriaService.extrairRecursosDigital(arquivoImagemDigital);
             }
-
-            // 4. Processar Biometria Facial (se selecionada)
             if (tipoBiometria.equals(TIPO_ROSTO) || tipoBiometria.equals(TIPO_AMBOS)) {
                 if (arquivoImagemRosto == null) {
                     AlertUtils.showErrorAlert("Nenhum rosto foi capturado.");
@@ -185,19 +161,14 @@ public class CadastroController implements Initializable {
                     return;
                 }
             }
-
-            // 5. Salvar no Banco de Dados
             System.out.println("Salvando usuário no banco de dados...");
             boolean sucesso = usuarioDAO.cadastrarUsuario(nome, usuario, nivelAcesso, descritoresDigital, descritoresRosto);
-
-            // 6. Dar feedback ao usuário
             if (sucesso) {
                 AlertUtils.showSuccessAlert("Usuário '" + usuario + "' cadastrado com sucesso!");
                 limparCampos();
             } else {
                 AlertUtils.showErrorAlert("Não foi possível cadastrar o usuário. (Possível usuário duplicado).");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             AlertUtils.showErrorAlert("Ocorreu um erro inesperado: " + e.getMessage());
@@ -205,21 +176,35 @@ public class CadastroController implements Initializable {
     }
 
     private void limparCampos() {
-        // ... (código de limpeza igual ao da resposta anterior)
+        // (Este método permanece igual)
         txtNome.clear();
         txtUsuario.clear();
         cmbNivelAcesso.getSelectionModel().clearSelection();
         cmbNivelAcesso.setPromptText("Selecione o nível");
         cmbTipoBiometria.getSelectionModel().clearSelection();
         cmbTipoBiometria.setPromptText("Selecione o tipo");
-
         lblCaminhoImagem.setText("Nenhuma imagem selecionada.");
         lblCaminhoImagemRosto.setText("Nenhum rosto capturado.");
         arquivoImagemDigital = null;
         arquivoImagemRosto = null;
-        imgWebcamRosto.setImage(null); // Limpa o ImageView
-
+        if (imgWebcamRosto != null) imgWebcamRosto.setImage(null);
         atualizarVisibilidadeCampos(null);
     }
 
+    // --- NOVO MÉTODO "VOLTAR" ---
+    @FXML
+    void voltarParaHome(ActionEvent event) {
+        // Para a câmera, se estiver ligada
+        biometriaService.stopStreamWebcam();
+
+        try {
+            // Encontra o BorderPane principal
+            BorderPane mainPane = (BorderPane) txtNome.getScene().getRoot();
+            // Carrega a nova tela Home que vamos criar
+            Parent tela = FXMLLoader.load(getClass().getResource("/view/HomeView.fxml"));
+            mainPane.setCenter(tela);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

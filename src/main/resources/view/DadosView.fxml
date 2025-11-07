@@ -24,6 +24,7 @@
                         <TableColumn fx:id="colNivel" prefWidth="60.0" text="Nível" />
                     </columns>
                 </TableView>
+                <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar à Tela Inicial" />
             </children>
         </VBox>
     </children>

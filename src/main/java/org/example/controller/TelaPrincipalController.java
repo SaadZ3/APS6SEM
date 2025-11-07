@@ -16,8 +16,7 @@ public class TelaPrincipalController implements Initializable {
     private BorderPane mainPane;
 
     /**
-     * Este método é chamado automaticamente quando a TelaPrincipal.fxml é carregada.
-     * Vamos usá-lo para carregar nossa nova tela Home por padrão.
+     * Chamado automaticamente para carregar a tela Home por padrão.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -25,8 +24,7 @@ public class TelaPrincipalController implements Initializable {
     }
 
     /**
-     * Este método agora é o navegador principal.
-     * Ele carrega qualquer tela no centro do BorderPane.
+     * Método público para carregar uma tela no centro do BorderPane.
      */
     public void carregarTela(String nomeTela) {
         try {
@@ -34,7 +32,7 @@ public class TelaPrincipalController implements Initializable {
             mainPane.setCenter(tela);
         } catch (IOException e) {
             e.printStackTrace();
-            // Lide com o erro, por exemplo, mostrando um alerta para o usuário
+            // Lide com o erro
         }
     }
 }
