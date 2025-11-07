@@ -4,14 +4,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
 
-<AnchorPane prefHeight="450.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CadastroController">
+<AnchorPane prefHeight="569.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CadastroController">
     <children>
-        <VBox layoutX="50.0" layoutY="30.0" spacing="15.0">
+        <VBox layoutX="179.0" layoutY="48.0" spacing="15.0">
             <children>
                 <Label text="Cadastro de Novo Usuário">
                     <font>
@@ -29,7 +29,7 @@
                 <Label text="Tipo de Biometria para Cadastrar:" />
                 <ComboBox fx:id="cmbTipoBiometria" prefWidth="200.0" promptText="Selecione o tipo" />
 
-                <VBox fx:id="boxDigital" spacing="5.0" managed="false" visible="false">
+                <VBox fx:id="boxDigital" managed="false" spacing="5.0" visible="false">
                     <children>
                         <Label text="Biometria (Impressão Digital):" />
                         <Button fx:id="btnSelecionarImagem" onAction="#selecionarImagemDigital" text="Selecionar Imagem da Digital" />
@@ -37,14 +37,14 @@
                     </children>
                 </VBox>
 
-                <VBox fx:id="boxRosto" spacing="5.0" managed="false" visible="false">
+                <VBox fx:id="boxRosto" managed="false" spacing="5.0" visible="false">
                     <children>
                         <Label text="Biometria (Reconhecimento Facial):" />
 
                         <ImageView fx:id="imgWebcamRosto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
 
                         <Button fx:id="btnLigarCamera" onAction="#ligarCamera" text="Ligar Câmera" />
-                        <Button fx:id="btnCapturarRosto" onAction="#capturarRosto" text="Capturar Rosto" disable="true" />
+                        <Button fx:id="btnCapturarRosto" disable="true" onAction="#capturarRosto" text="Capturar Rosto" />
 
                         <Label fx:id="lblCaminhoImagemRosto" text="Nenhum rosto capturado." />
                     </children>

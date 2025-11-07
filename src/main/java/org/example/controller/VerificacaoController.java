@@ -3,29 +3,29 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.Initializable; // Importe
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView; // Importe
+import javafx.scene.layout.VBox; // Importe
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.example.dao.UsuarioDAO;
 import org.example.model.UsuarioBiometria;
 import org.example.service.BiometriaService;
-import org.example.util.AlertUtils;
+import org.example.util.AlertUtils; // Importe
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException; // Importe
+import java.net.URL; // Importe
+import java.util.ResourceBundle; // Importe
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.BorderPane;
+import javafx.fxml.FXMLLoader; // Importe
+import javafx.scene.Parent; // Importe
+import javafx.scene.layout.BorderPane; // Importe
 
 public class VerificacaoController implements Initializable {
 
@@ -160,7 +160,7 @@ public class VerificacaoController implements Initializable {
                     AlertUtils.showErrorAlert("Este usuário não possui biometria digital cadastrada.");
                     return;
                 }
-                // Esta é a linha que estava dando erro:
+
                 descritoresNovos = biometriaService.extrairRecursosDigital(arquivoImagemDigital);
                 acessoPermitido = biometriaService.compararBiometria(biometriaSalva.digital(), descritoresNovos);
 
@@ -173,7 +173,7 @@ public class VerificacaoController implements Initializable {
                     AlertUtils.showErrorAlert("Este usuário não possui biometria facial cadastrada.");
                     return;
                 }
-                // Esta é a nova chamada:
+
                 descritoresNovos = biometriaService.extrairRecursosRosto(arquivoImagemRosto);
                 if(descritoresNovos.empty()){
                     AlertUtils.showErrorAlert("Não foi possível detectar um rosto na captura. Tente novamente.");
@@ -200,6 +200,7 @@ public class VerificacaoController implements Initializable {
      * Carrega a tela de dados restritos após o login.
      */
     private void carregarTelaDeDados(int nivelAcesso) throws IOException {
+        // Encontra o BorderPane principal subindo na hierarquia
         BorderPane mainPane = (BorderPane) txtUsuario.getScene().getRoot();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DadosView.fxml"));
         Parent dadosView = loader.load();
