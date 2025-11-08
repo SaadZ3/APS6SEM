@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.VerificacaoController">
+<AnchorPane prefHeight="450.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.VerificacaoController">
     <children>
         <VBox layoutX="50.0" layoutY="30.0" spacing="15.0">
             <children>
@@ -44,9 +44,9 @@
                 </VBox>
 
                 <Button fx:id="btnVerificar" mnemonicParsing="false" onAction="#verificar" text="Verificar" />
-                <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar" />
             </children>
         </VBox>
+          <Button fx:id="btnVoltar" layoutX="3.0" layoutY="4.0" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar" />
 
     </children>
 </AnchorPane>
