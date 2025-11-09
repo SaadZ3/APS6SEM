@@ -5,7 +5,7 @@ import org.example.model.Propriedade;
 import org.example.model.UsuarioBiometria;
 import org.example.service.BiometriaService;
 
-import java.sql.*; // Importe
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +17,7 @@ public class UsuarioDAO {
         this.biometriaService = new BiometriaService();
     }
 
-    /**
-     * Salva um novo usuário, aceitando biometria digital e/ou facial.
-     */
+    // Salva um novo usuário, aceitando biometria digital e/ou facial.
     public boolean cadastrarUsuario(String nome, String usuario, int nivelAcesso, Mat descritoresDigital, Mat descritoresRosto) {
         String sql = "INSERT INTO usuarios(nome_completo, usuario, nivel_acesso, " +
                 "biometria_dados, biometria_rows, biometria_cols, biometria_type, " +
@@ -33,7 +31,7 @@ public class UsuarioDAO {
             pstmt.setString(2, usuario);
             pstmt.setInt(3, nivelAcesso);
 
-            // --- Lógica para Biometria Digital (pode ser nula) ---
+            // Lógica para Biometria Digital (pode ser nula)
             if (descritoresDigital != null && !descritoresDigital.empty()) {
                 byte[] biometriaBytes = biometriaService.converterMatParaBytes(descritoresDigital);
                 pstmt.setBytes(4, biometriaBytes);
@@ -47,7 +45,7 @@ public class UsuarioDAO {
                 pstmt.setNull(7, Types.INTEGER);
             }
 
-            // --- Lógica para Biometria Facial (pode ser nula) ---
+            // Lógica para Biometria Facial (pode ser nula)
             if (descritoresRosto != null && !descritoresRosto.empty()) {
                 byte[] faceBytes = biometriaService.converterMatParaBytes(descritoresRosto);
                 pstmt.setBytes(8, faceBytes);
@@ -74,10 +72,7 @@ public class UsuarioDAO {
         }
     }
 
-    /**
-     * Busca os dados de biometria e nível de acesso de um usuário.
-     * (ATUALIZADO para buscar dados faciais também)
-     */
+    // Busca os dados de biometria e nível de acesso de um usuário.
     public UsuarioBiometria getBiometriaPorUsuario(String usuario) {
         // Pede todas as colunas de biometria (digital E facial)
         String sql = "SELECT * FROM usuarios WHERE usuario = ?";
@@ -122,12 +117,8 @@ public class UsuarioDAO {
         return null; // Usuário não encontrado
     }
 
-    /**
-     * Busca as propriedades que o usuário tem permissão para ver.
-     * (Sem alteração)
-     */
+    // Busca as propriedades que o usuário tem permissão para ver.
     public List<Propriedade> getPropriedadesPorNivel(int nivelUsuario) {
-        // ...código idêntico ao anterior...
         List<Propriedade> propriedades = new ArrayList<>();
         String sql = "SELECT nome_propriedade, agrotoxico_utilizado, impacto_ambiental, nivel_acesso_necessario "
                 + "FROM propriedades_rurais WHERE nivel_acesso_necessario <= ? "

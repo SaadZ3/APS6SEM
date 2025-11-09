@@ -18,9 +18,8 @@ public class DatabaseService {
         }
     }
 
-    // Método para criar as tabelas
+    // Metodo para criar as tabelas
     public static void criarTabelas() {
-        // --- MUDANÇA AQUI ---
         // Adicionamos colunas para biometria facial e permitimos que sejam NULL
         String sqlUsuarios = "CREATE TABLE IF NOT EXISTS usuarios ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -37,7 +36,7 @@ public class DatabaseService {
                 + " face_type INTEGER NULL"
                 + ");";
 
-        // SQL para a tabela de propriedades (sem alteração)
+        // SQL para a tabela de propriedades
         String sqlPropriedades = "CREATE TABLE IF NOT EXISTS propriedades_rurais ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " nome_propriedade TEXT NOT NULL,"

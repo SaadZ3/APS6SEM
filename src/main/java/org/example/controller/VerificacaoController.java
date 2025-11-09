@@ -3,33 +3,32 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable; // Importe
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView; // Importe
-import javafx.scene.layout.VBox; // Importe
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.example.dao.UsuarioDAO;
 import org.example.model.UsuarioBiometria;
 import org.example.service.BiometriaService;
-import org.example.util.AlertUtils; // Importe
+import org.example.util.AlertUtils;
 
 import java.io.File;
-import java.io.IOException; // Importe
-import java.net.URL; // Importe
-import java.util.ResourceBundle; // Importe
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import javafx.fxml.FXMLLoader; // Importe
-import javafx.scene.Parent; // Importe
-import javafx.scene.layout.BorderPane; // Importe
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 
 public class VerificacaoController implements Initializable {
 
-    // --- NOVOS COMPONENTES FXML ---
     @FXML private ComboBox<String> cmbTipoBiometria;
     @FXML private VBox boxDigital;
     @FXML private VBox boxRosto;
@@ -39,7 +38,6 @@ public class VerificacaoController implements Initializable {
     @FXML private Button btnCapturarRosto;
     @FXML private Button btnVerificar;
 
-    // --- COMPONENTES ANTIGOS ---
     @FXML private Label lblCaminhoImagem;
     @FXML private TextField txtUsuario;
 
@@ -84,7 +82,6 @@ public class VerificacaoController implements Initializable {
     }
 
     // --- LÓGICA DA WEBCAM ---
-
     @FXML
     void ligarCamera(ActionEvent event) {
         biometriaService.iniciarStreamWebcam(imgWebcamRosto);
@@ -110,7 +107,6 @@ public class VerificacaoController implements Initializable {
     }
 
     // --- LÓGICA DE VERIFICAÇÃO ---
-
     @FXML
     void selecionarImagemDigital(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -128,11 +124,11 @@ public class VerificacaoController implements Initializable {
 
     @FXML
     void verificar(ActionEvent event) {
-        // 1. Obter os dados da interface
+        // Obter os dados da interface
         String usuario = txtUsuario.getText();
         String tipoBiometria = cmbTipoBiometria.getValue();
 
-        // 2. Validação de campos
+        // Validação de campos
         if (usuario.isEmpty() || tipoBiometria == null) {
             AlertUtils.showErrorAlert("Usuário e tipo de verificação devem ser preenchidos.");
             return;
@@ -142,7 +138,7 @@ public class VerificacaoController implements Initializable {
         boolean acessoPermitido = false;
 
         try {
-            // 3. Buscar o usuário e sua biometria salva no banco
+            // Buscar o usuário e sua biometria salva no banco
             UsuarioBiometria biometriaSalva = usuarioDAO.getBiometriaPorUsuario(usuario);
 
             if (biometriaSalva == null) {
@@ -150,7 +146,7 @@ public class VerificacaoController implements Initializable {
                 return;
             }
 
-            // 4. Processar a biometria de login (Digital ou Rosto)
+            // Processar a biometria de login (Digital ou Rosto)
             if (tipoBiometria.equals(TIPO_DIGITAL)) {
                 if (arquivoImagemDigital == null) {
                     AlertUtils.showErrorAlert("Selecione a imagem da digital.");
@@ -182,7 +178,7 @@ public class VerificacaoController implements Initializable {
                 acessoPermitido = biometriaService.compararBiometria(biometriaSalva.rosto(), descritoresNovos);
             }
 
-            // 5. Dar feedback final
+            // Dar feedback final
             if (acessoPermitido) {
                 AlertUtils.showSuccessAlert("Acesso Permitido! Carregando dados...");
                 carregarTelaDeDados(biometriaSalva.nivelAcesso());
@@ -196,9 +192,7 @@ public class VerificacaoController implements Initializable {
         }
     }
 
-    /**
-     * Carrega a tela de dados restritos após o login.
-     */
+    // Carrega a tela de dados restritos após o login.
     private void carregarTelaDeDados(int nivelAcesso) throws IOException {
         // Encontra o BorderPane principal subindo na hierarquia
         BorderPane mainPane = (BorderPane) txtUsuario.getScene().getRoot();
@@ -211,8 +205,7 @@ public class VerificacaoController implements Initializable {
 
     @FXML
     void voltarParaHome(ActionEvent event) {
-        // Para a câmera, se estiver ligada
-        biometriaService.stopStreamWebcam();
+        biometriaService.stopStreamWebcam(); // Para a câmera, se estiver ligada
 
         try {
             BorderPane mainPane = (BorderPane) txtUsuario.getScene().getRoot();

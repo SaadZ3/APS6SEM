@@ -2,7 +2,7 @@ package org.example.model;
 
 /**
  * Representa os dados da tabela propriedades_rurais.
- * Usaremos Propriedades JavaFX para ligar com a TableView.
+ * Foi usado Propriedades JavaFX para ligar com a TableView.
  */
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

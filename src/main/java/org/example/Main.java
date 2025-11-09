@@ -15,7 +15,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/TelaPrincipal.fxml"));
         primaryStage.setTitle("Sistema de Autenticação Biométrica");
-        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.setScene(new Scene(root, 1300, 900));
         primaryStage.show();
     }
 

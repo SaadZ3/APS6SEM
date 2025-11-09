@@ -35,7 +35,7 @@ public class BiometriaService {
     // --- Algoritmos ---
     private ORB orb;
     private BFMatcher matcher;
-    private CascadeClassifier faceDetector; // Novo
+    private CascadeClassifier faceDetector;
     private static final float RATIO_THRESH = 0.75f;
     private static final int LIMIAR_MINIMO_PONTOS = 15;
 
@@ -57,7 +57,6 @@ public class BiometriaService {
         carregarClassificadorRosto();
     }
 
-    // --- MÉTODO CORRIGIDO ---
     private void carregarClassificadorRosto() {
         try {
             // 1. Pega o recurso como um "stream" da nossa pasta /resources/classifiers
@@ -85,14 +84,13 @@ public class BiometriaService {
             System.out.println("Classificador de rosto carregado com sucesso.");
 
         } catch (Exception e) {
-            // Se falhar, nós *paramos* a aplicação.
+            // Se falhar, nós paramos a aplicação.
             throw new RuntimeException("Erro crítico ao carregar o classificador de rosto", e);
         }
     }
 
 
-    // --- MÉTODOS DE WEBCAM (Sem alteração) ---
-
+    // --- MÉTODOS DE WEBCAM---
     public void iniciarStreamWebcam(ImageView view) {
         stopFlag = false;
         grabber = new OpenCVFrameGrabber(0);
@@ -131,8 +129,7 @@ public class BiometriaService {
         return null;
     }
 
-    // --- MÉTODOS DE BIOMETRIA (Sem alteração) ---
-
+    // --- MÉTODOS DE BIOMETRIA ---
     public Mat extrairRecursosDigital(File arquivoImagem) {
         Mat imagem = imread(arquivoImagem.getAbsolutePath(), IMREAD_GRAYSCALE);
         if (imagem.empty()) {
@@ -195,7 +192,7 @@ public class BiometriaService {
         return boasCorrelacoes >= LIMIAR_MINIMO_PONTOS;
     }
 
-    // Métodos de conversão (Sem alteração)
+    // Métodos de conversão
     public byte[] converterMatParaBytes(Mat mat) {
         long size = mat.total() * mat.elemSize();
         byte[] bytes = new byte[(int) size];

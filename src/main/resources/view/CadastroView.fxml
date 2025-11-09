@@ -5,54 +5,48 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="569.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CadastroController">
+<VBox alignment="CENTER" prefHeight="569.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CadastroController">
     <children>
-        <VBox layoutX="179.0" layoutY="48.0" spacing="15.0">
+        <VBox spacing="15.0" maxWidth="400.0">
             <children>
                 <Label text="Cadastro de Novo Usuário">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-
                 <Label text="Nome Completo:" />
                 <TextField fx:id="txtNome" />
                 <Label text="Usuário:" />
                 <TextField fx:id="txtUsuario" />
                 <Label text="Nível de Acesso:" />
-                <ComboBox fx:id="cmbNivelAcesso" prefWidth="200.0" promptText="Selecione o nível" />
-
+                <ComboBox fx:id="cmbNivelAcesso" prefWidth="400.0" promptText="Selecione o nível" />
                 <Label text="Tipo de Biometria para Cadastrar:" />
-                <ComboBox fx:id="cmbTipoBiometria" prefWidth="200.0" promptText="Selecione o tipo" />
+                <ComboBox fx:id="cmbTipoBiometria" prefWidth="400.0" promptText="Selecione o tipo" />
 
                 <VBox fx:id="boxDigital" managed="false" spacing="5.0" visible="false">
                     <children>
                         <Label text="Biometria (Impressão Digital):" />
-                        <Button fx:id="btnSelecionarImagem" onAction="#selecionarImagemDigital" text="Selecionar Imagem da Digital" />
+                        <Button fx:id="btnSelecionarImagem" onAction="#selecionarImagemDigital" prefWidth="400.0" text="Selecionar Imagem da Digital" />
                         <Label fx:id="lblCaminhoImagem" text="Nenhuma imagem selecionada." />
                     </children>
                 </VBox>
 
-                <VBox fx:id="boxRosto" managed="false" spacing="5.0" visible="false">
+                <VBox fx:id="boxRosto" managed="false" spacing="5.0" visible="false" alignment="CENTER_LEFT">
                     <children>
                         <Label text="Biometria (Reconhecimento Facial):" />
-
                         <ImageView fx:id="imgWebcamRosto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-
-                        <Button fx:id="btnLigarCamera" onAction="#ligarCamera" text="Ligar Câmera" />
-                        <Button fx:id="btnCapturarRosto" disable="true" onAction="#capturarRosto" text="Capturar Rosto" />
-
+                        <Button fx:id="btnLigarCamera" onAction="#ligarCamera" prefWidth="200.0" text="Ligar Câmera" />
+                        <Button fx:id="btnCapturarRosto" disable="true" onAction="#capturarRosto" prefWidth="200.0" text="Capturar Rosto" />
                         <Label fx:id="lblCaminhoImagemRosto" text="Nenhum rosto capturado." />
                     </children>
                 </VBox>
 
-                <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
+                <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" prefWidth="400.0" text="Cadastrar" />
+                <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" prefWidth="400.0" text="Voltar" />
             </children>
         </VBox>
-        <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarParaHome" text="Voltar" />
     </children>
-</AnchorPane>
+</VBox>

@@ -1,19 +1,19 @@
 package org.example.controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent; // Importe
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader; // Importe
-import javafx.scene.Parent; // Importe
-import javafx.scene.control.Button; // Importe
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane; // Importe
+import javafx.scene.layout.BorderPane;
 import org.example.dao.UsuarioDAO;
 import org.example.model.Propriedade;
 
-import java.io.IOException; // Importe
+import java.io.IOException;
 import java.util.List;
 
 public class DadosController {
@@ -24,7 +24,7 @@ public class DadosController {
     @FXML private TableColumn<Propriedade, String> colAgrotoxico;
     @FXML private TableColumn<Propriedade, String> colImpacto;
     @FXML private TableColumn<Propriedade, Number> colNivel;
-    @FXML private Button btnVoltar; // Novo
+    @FXML private Button btnVoltar;
 
     private UsuarioDAO usuarioDAO;
 
@@ -43,7 +43,7 @@ public class DadosController {
         tabelaPropriedades.setItems(FXCollections.observableArrayList(propriedades));
     }
 
-    // --- NOVO MÉTODO "VOLTAR" ---
+    // METODO "VOLTAR"
     @FXML
     void voltarParaHome(ActionEvent event) {
         try {
