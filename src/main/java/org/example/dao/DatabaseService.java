@@ -18,7 +18,7 @@ public class DatabaseService {
         }
     }
 
-    // Método para criar as tabelas (sem alteração)
+    // Criar as tabelas
     public static void criarTabelas() {
         String sqlUsuarios = "CREATE TABLE IF NOT EXISTS usuarios ("
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -49,14 +49,13 @@ public class DatabaseService {
             stmt.execute(sqlPropriedades);
             System.out.println("Banco de dados e tabelas (com suporte a face) verificados.");
 
-            popularDadosIniciais(conn); // Chama o método atualizado
+            popularDadosIniciais(conn);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // --- MÉTODO ATUALIZADO COM MAIS DADOS ---
     private static void popularDadosIniciais(Connection conn) throws SQLException {
         String sqlCheck = "SELECT COUNT(*) FROM propriedades_rurais";
         try (Statement stmt = conn.createStatement();

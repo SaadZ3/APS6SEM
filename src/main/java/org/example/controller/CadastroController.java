@@ -3,15 +3,15 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader; // Importe
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent; // Importe
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane; // <-- ESTA É A CORREÇÃO DO ERRO
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,13 +22,12 @@ import org.example.service.BiometriaService;
 import org.example.util.AlertUtils;
 
 import java.io.File;
-import java.io.IOException; // Importe
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CadastroController implements Initializable {
 
-    // (O resto das suas variáveis @FXML aqui)
     @FXML private ComboBox<String> cmbTipoBiometria;
     @FXML private VBox boxDigital;
     @FXML private VBox boxRosto;
@@ -65,7 +64,6 @@ public class CadastroController implements Initializable {
     }
 
     private void atualizarVisibilidadeCampos(String tipo) {
-        // (Este método permanece igual)
         if (tipo == null || (!tipo.equals(TIPO_ROSTO) && !tipo.equals(TIPO_AMBOS))) {
             boxRosto.setVisible(false); boxRosto.setManaged(false);
             biometriaService.stopStreamWebcam();
@@ -81,7 +79,6 @@ public class CadastroController implements Initializable {
 
     @FXML
     void ligarCamera(ActionEvent event) {
-        // (Este método permanece igual)
         biometriaService.iniciarStreamWebcam(imgWebcamRosto);
         btnLigarCamera.setDisable(true);
         btnCapturarRosto.setDisable(false);
@@ -89,7 +86,6 @@ public class CadastroController implements Initializable {
 
     @FXML
     void capturarRosto(ActionEvent event) {
-        // (Este método permanece igual)
         String caminhoTemp = "temp_face_capture.jpg";
         arquivoImagemRosto = biometriaService.capturarFrameEGravar(caminhoTemp);
         if (arquivoImagemRosto != null) {
@@ -105,7 +101,6 @@ public class CadastroController implements Initializable {
 
     @FXML
     void selecionarImagemDigital(ActionEvent event) {
-        // (Este método permanece igual)
         arquivoImagemDigital = selecionarArquivo("Selecionar Imagem da Digital");
         if (arquivoImagemDigital != null) {
             lblCaminhoImagem.setText(arquivoImagemDigital.getName());
@@ -113,7 +108,6 @@ public class CadastroController implements Initializable {
     }
 
     private File selecionarArquivo(String titulo) {
-        // (Este método permanece igual)
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(titulo);
         fileChooser.getExtensionFilters().addAll(
@@ -125,7 +119,6 @@ public class CadastroController implements Initializable {
 
     @FXML
     void cadastrar(ActionEvent event) {
-        // (Este método permanece igual)
         String nome = txtNome.getText();
         String usuario = txtUsuario.getText();
         Integer nivelAcesso = cmbNivelAcesso.getValue();
@@ -176,7 +169,6 @@ public class CadastroController implements Initializable {
     }
 
     private void limparCampos() {
-        // (Este método permanece igual)
         txtNome.clear();
         txtUsuario.clear();
         cmbNivelAcesso.getSelectionModel().clearSelection();
@@ -191,7 +183,6 @@ public class CadastroController implements Initializable {
         atualizarVisibilidadeCampos(null);
     }
 
-    // --- NOVO MÉTODO "VOLTAR" ---
     @FXML
     void voltarParaHome(ActionEvent event) {
         // Para a câmera, se estiver ligada
@@ -200,7 +191,6 @@ public class CadastroController implements Initializable {
         try {
             // Encontra o BorderPane principal
             BorderPane mainPane = (BorderPane) txtNome.getScene().getRoot();
-            // Carrega a nova tela Home que vamos criar
             Parent tela = FXMLLoader.load(getClass().getResource("/view/HomeView.fxml"));
             mainPane.setCenter(tela);
         } catch (IOException e) {
